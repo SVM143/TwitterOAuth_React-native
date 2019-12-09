@@ -17,7 +17,7 @@ import {
   import React from "react";
   import { Dimensions, Image, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
   import { Actions } from "react-native-router-flux";
-  import Store from "../config/store";
+  import Store from "../config/storage";
 
   
   const { width, height } = Dimensions.get("screen");
@@ -58,7 +58,7 @@ import {
         <View style={{flex:1,flexDirection:'row',paddingTop:50,paddingLeft:10,backgroundColor:"#455a64"}}>
           <View style={{flex:0.4,}}>
             <Image
-                source={this.state.user_Details && this.state.user_Details?{uri:this.state.user_Details.uri}:require("./assets/images/avatar.png")}
+                source={this.state.user_Details && this.state.user_Details?{uri:this.state.user_Details.uri}:require("../assets/images/avatar.png")}
                 resizeMode="center"
                 style={styles.avatar}
             >
@@ -72,13 +72,7 @@ import {
               >
                 {this.state.account_Details ?
                 <Text style={styles.normalText}>
-                  @ { this.state.account_Details.userName||this.state.account_Details.name}
-                </Text>
-                 : null
-                }
-                {this.state.account_Details ?
-                <Text style={styles.normalText}>
-                { this.state.account_Details.email}
+                  { this.state.account_Details.EmailId}
                 </Text>
                  : null
                 }
@@ -106,7 +100,7 @@ import {
                   >
                     <Left style={styles.logout}>
                       <Image
-                        source={require("./assets/images/logout.png")}
+                        source={require("../assets/images/logout.png")}
                         resizeMode="contain"
                         style={{ width: 20, height: 20 }}
                       />

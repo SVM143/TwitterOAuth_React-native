@@ -11,8 +11,8 @@ export default class Logo extends Component {
 		return(
 			<View style={styles.container}>
 				<Image  style={{width:40, height: 70}}
-          			source={require('../components/assets/images/logo.png')}/>
-          		<Text style={styles.logoText}>Welcome to My app.</Text>	
+          			source={require('../../assets/images/logo.png')}/>
+          		<Text style={styles.logoText}>Welcome to News App.</Text>	
   			</View>
 			)
 	}
@@ -20,9 +20,9 @@ export default class Logo extends Component {
 
 const styles = StyleSheet.create({
   container : {
-    flexGrow: 1,
+    flex:0.5,
     justifyContent:'flex-end',
-    alignItems: 'center'
+	alignItems: 'center',
   },
   logoText : {
   	marginVertical: 15,

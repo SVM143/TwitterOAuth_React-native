@@ -11,7 +11,6 @@ import {getId} from "../../utils/functionalLogics"
 export default class VideoPlayerCompenent extends React.Component {
   constructor(props){
   super(props)
-  console.log("seofusefbweofiuwe",props)
   this.state = {
     isReady: false,
     status: null,

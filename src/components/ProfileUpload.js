@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView,TouchableOpacity,Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import ImagePicker from "react-native-image-picker";
-import Store from "../config/store";
+import Store from "../config/storage";
 import { Actions } from 'react-native-router-flux';
 import { mediaHandler } from '../utils/MediaPicker'
 
@@ -67,13 +67,13 @@ render(){
                 </View>
                 <View style={{ alignSelf:'center'}}>
                     <View style={styles.profileImage}>
-                        <Image source={this.state.profileUri?this.state.profileUri:require("./assets/images/avatar.png")} style={{height:200,width:200}}></Image>
+                        <Image source={this.state.profileUri?this.state.profileUri:require("../assets/images/avatar.png")} style={{height:200,width:200}}></Image>
                     </View>
                     <TouchableOpacity 
                        onPress= {this.pickImageHandler}
                       style={styles.add}
                     >
-                      <Image source={require("./assets/images/pencil.png")} style={{height:50,width:50,tintColor:'#fff'}}></Image>
+                      <Image source={require("../assets/images/pencil.png")} style={{height:50,width:50,tintColor:'#fff'}}></Image>
                     </TouchableOpacity>
                 </View>
 

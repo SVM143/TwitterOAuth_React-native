@@ -3,6 +3,7 @@ import { Body, Container, Drawer, Header, Icon, Left, Right, Tab, TabHeading, Ta
 import { BackHandler, Image, StatusBar, ToastAndroid, TouchableOpacity, View, StyleSheet } from "react-native";
 import { Actions } from "react-native-router-flux";
 import Profile from "./Profile";
+import TrendingHashtags from "./TrendingHashTags";
 
 var backButtonPressedOnceToExit = false;
 import Timeline from './Timeline'
@@ -84,7 +85,25 @@ class Home extends React.Component {
               </TouchableOpacity>
             </Left>
             <Body />
+            <Right style={{ height: "70%", alignItems: "center" }}>
+              <TouchableOpacity
+                transparent
+                onPress={() => {
+                  if (Actions.currentScene === ScreenKey.Home) {
+                    // Actions.search({ currentTab: this.state.currentTab });
+                  }
+                }}
+                style={{ width: "40%", alignItems: "flex-end", height: "70%" }}
+              >
+                <Image
+                  source={require("../assets/images/search.png")}
+                  resizeMode="contain"
+                  style={{ width: 20, height: 20 }}
+                />
+              </TouchableOpacity>
+            </Right>
           </Header>
+          <TrendingHashtags/>
           <Timeline/>
         </Container>
       </Drawer>

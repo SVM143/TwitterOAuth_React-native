@@ -1,7 +1,7 @@
 import React from "react";
 import {  View, Image, Dimensions, StatusBar } from "react-native";
 import { Actions } from "react-native-router-flux";
-import Store from "../config/store"
+import Store from "../config/storage"
 const { width } = Dimensions.get("screen");
 const { height } = Dimensions.get("screen");
 
@@ -52,7 +52,7 @@ class Splash extends React.Component {
         <StatusBar backgroundColor="#455a64" barStyle="light-content" translucent={false} />
         <View>
           <Image
-            source={require("./assets/images/logo3.png")}
+            source={require("../assets/images/recruit.jpg")}
             style={{ height: height, width: width }}
             resizeMode="cover"
           />

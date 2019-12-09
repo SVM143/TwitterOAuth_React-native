@@ -26,3 +26,8 @@ export function getImage(str){
 export function getId(str){
     return str.split("?v=")[1].split("&")[0];
 }
+
+export function verifyEmail(str){
+    console.log("44848484",str,str.value);
+   return Constants.Regex.test(str)
+}
