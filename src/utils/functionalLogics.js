@@ -28,6 +28,5 @@ export function getId(str){
 }
 
 export function verifyEmail(str){
-    console.log("44848484",str,str.value);
    return Constants.Regex.test(str)
 }

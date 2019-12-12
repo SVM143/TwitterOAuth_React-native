@@ -27,7 +27,6 @@ export default class Form extends Component {
   signup = ()=> {
     let data =  {EmailId:this.state.emailId}
     Actions.ProfileUpload();
-    console.log("came here",data)
     data?Store.set("AccountDetails", JSON.stringify(data)):null
   }
 

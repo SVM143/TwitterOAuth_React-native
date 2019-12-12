@@ -59,7 +59,7 @@ class HashTag extends React.Component {
           </View>
           </Header>
           <Content>
-            <TimeLine/>
+            <TimeLine screen="hashtag" hashTag={this.props.hashTag}/>
           </Content>
         </Container>
       )

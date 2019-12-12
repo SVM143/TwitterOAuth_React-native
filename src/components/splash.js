@@ -4,6 +4,7 @@ import { Actions } from "react-native-router-flux";
 import Store from "../config/storage"
 const { width } = Dimensions.get("screen");
 const { height } = Dimensions.get("screen");
+import {getAllData} from "../ApiFetch/accountActions"
 
 const styles = {
   container: {
@@ -26,6 +27,7 @@ class Splash extends React.Component {
   }
   
   componentDidMount(){
+    getAllData();
     Store.get("AccountDetails").then(
         keyValue => {
           if (keyValue) {

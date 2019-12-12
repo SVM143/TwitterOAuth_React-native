@@ -4,7 +4,7 @@ import thunk from "redux-thunk";
 import accountReducer from "../reducer/index";
 import promise from "redux-promise";
 
-const middlewares = [thunk, promise,logger];
+const middlewares = [thunk, promise];
 
 const store = createStore(
   accountReducer,

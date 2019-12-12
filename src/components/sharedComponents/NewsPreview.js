@@ -4,10 +4,14 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import renderIf from "./renderif";
 import { openCustomTab } from '../../utils/CustomTabs';
 import FastImage from "react-native-fast-image";
-import {PreviewFooter} from "./PreviewFooter"
+import PreviewFooter from "./PreviewFooter";
+import {Constants} from "../../utils/constants"
 export class NewsPreview extends React.Component {
     constructor(props) {
         super(props)
+        this.state={
+          url: this.props.previewLink.urlToImage || Constants.placeholderUrl
+        }
     }
     render() {
         return (
@@ -39,7 +43,7 @@ export class NewsPreview extends React.Component {
               <Body>
                 <View style={{height: 180, padding: 0, width: "100%", marginLeft: 0, marginRight: 0,backgroundColor:"white" }}>
                   <FastImage
-                    source={{uri: this.props.previewLink.urlToImage}}
+                    source={{uri: this.state.url}}
                     style={{height:180}}
                   />
                 </View>
@@ -61,9 +65,10 @@ export class NewsPreview extends React.Component {
                     >
                       {this.props.previewLink.title}
                     </Text>
-                    )}
+                    )
+                  }
 
-                  {/* {renderIf(this.props.previewLink.description, */}
+                  {renderIf(this.props.previewLink.description,
                     <Text
                       style={{
                         flex: 2,
@@ -74,7 +79,7 @@ export class NewsPreview extends React.Component {
                     >
                       {this.props.previewLink.description && this.props.previewLink.description.trim()}
                     </Text>
-                {/* )} */}
+                 )} 
                   <Text
                     style={{
                       flex:1,
@@ -90,7 +95,7 @@ export class NewsPreview extends React.Component {
               </Body>
           </CardItem>
       </TouchableOpacity>
-      <PreviewFooter/>
+      <PreviewFooter {...this.props.previewLink}/>
       </View>
       )
     }

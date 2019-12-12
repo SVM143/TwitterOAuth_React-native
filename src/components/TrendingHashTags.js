@@ -58,7 +58,7 @@ class TrendingHashTags extends Component {
               </Badge>
             </TouchableOpacity>
           )
-          }
+         }
         />
       </View>
     );

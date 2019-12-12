@@ -4,31 +4,54 @@ import {FlatList, View , ActivityIndicator,StyleSheet ,  Text } from "react-nati
 import MyListItem from "./sharedComponents/MyListItem"
 import {youtubeData} from "../utils/data"
 import {NewsPreview} from "./sharedComponents/NewsPreview"
-import {getNews} from "../ApiFetch/accountActions"
+import {getNews,getLikes,getBookMarks,getProfile} from "../ApiFetch/accountActions"
 import {connect} from "react-redux";
-import {PreviewFooter} from "../components/sharedComponents/PreviewFooter"
 
 class Timeline extends Component {
   constructor(props) {
     super(props);
-    console.log("props",props);
     this.state={
       loader:false,
-      data:[]
+      data:[],
+      refreshing:false
     }
-    this.props.getNews()
   }
 
   componentDidMount(){
-    
+    if(this.props.screen == "home" || this.props.screen == "hashtag") 
+        this.props.getNews(this.props.hashTag);
+    else if(this.props.screen == "like")
+        this.props.getLikes();
+    else if(this.props.screen == "bookMark")
+        this.props.getBookMarks();
+    else
+        this.props.getProfile();
   }
 
   componentWillReceiveProps(props){
-    props.timeLineFeed ?this.setState({loader:true,data:props.timeLineFeed}):null
+    this.getData(props);
+  }
+
+  onRefresh() {
+    this.setState({ refreshing: true, offset: 0 });
+    this.getData(this.props);
+    this.setState({ refreshing: false });
+  }
+
+  getData(props){
+  if(props.screen == "home" && props.timeLineFeed)
+      this.setState({loader:true,data:props.timeLineFeed})
+  else if(props.screen == "like" && props.likedData)
+      this.setState({loader:true,data:props.likedData})
+  else if(props.screen == "bookMark" && props.bookMarkData)
+      this.setState({loader:true,data:props.bookMarkData})
+  else if(props.screen == "hashtag" && props.hashTagFeed)
+      this.setState({loader:true,data:props.hashTagFeed})
+  else 
+      this.setState({loader:true,data:props.profileData})
   }
   renderItem = ({ item, index }) => (
    <NewsPreview previewLink={item} />
-    // console.log("item",item)
   );
 
   renderSeparator = () => {
@@ -51,13 +74,15 @@ class Timeline extends Component {
           {this.state.loader?
             <FlatList
               showsVerticalScrollIndicator={false}
-              contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+              contentContainerStyle={{ flexGrow: 1 }}
               keyboardDismissMode="on-drag"
               extraData={this.state}
               data={this.state.data}
+              refreshing={this.state.refreshing}
               renderItem={this.renderItem}
               onEndReachedThreshold={0.7}
               windowSize={61}
+              onRefresh={() => this.onRefresh()}
               ItemSeparatorComponent={this.renderSeparator}
             />
             :
@@ -91,15 +116,29 @@ const styles = StyleSheet.create({
 });
 const mapDispatchToProps = dispatch => {
   return {
-    getNews: () =>{
-      dispatch(getNews());
+    getNews: (data) =>{
+      dispatch(getNews(data));
+    },
+    getLikes:()=>{
+      dispatch(getLikes());
+    },
+    getBookMarks:()=>{
+      dispatch(getBookMarks());
+    },
+    getProfile:()=>{
+      dispatch(getProfile())
     }
   }
 };
 
 const mapStateToProps = (state) => {
+  console.log("state",state)
   return {
     timeLineFeed: state.accountData.timeLineFeed,
+    likedData: state.accountData.likedData,
+    bookMarkData: state.accountData.bookMarkData,
+    profileData:state.accountData.profileData,
+    hashTagFeed:state.accountData.hashTagFeed
     // recommendations: state.accoutData
   };
 }

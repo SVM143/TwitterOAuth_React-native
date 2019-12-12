@@ -1,20 +1,23 @@
 import React from "react";
 import { Image, TouchableOpacity, View,StyleSheet, ToastAndroid } from "react-native";
+import {connect} from "react-redux";
+import {setLikes,setBookMarks,setProfile} from "../../ApiFetch/accountActions"
+
 class PreviewFooter extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      liked:false,
-      mark:false
+      liked:this.props.like,
+      marked:this.props.marked
     }
     // this.commentCounter=props.data.count;
   }
-
-  toggleColor(type){
-    this.imageSnoopRef.setNativeProps({
-      tintColor: type
-    });
-  }
+  
+  // toggleColor(type){
+  //   this.imageSnoopRef.setNativeProps({
+  //     tintColor: type
+  //   });
+  // }
 
   getSnoopLogo(data) {
     if(data.like)
@@ -34,12 +37,25 @@ class PreviewFooter extends React.Component {
   }
 
   changeState(type){
-    if(type == "like")
-      !this.state.liked ? ToastAndroid.show("You liked the Post",ToastAndroid.LONG) : ToastAndroid.show("You unliked the Post",ToastAndroid.LONG)
-    else
-      !this.state.marked ? ToastAndroid.show("You BookMarked the Post",ToastAndroid.LONG) : ToastAndroid.show("BookMark Removed",ToastAndroid.LONG)
+    if(type == "like"){
+      !this.state.liked ? 
+      (ToastAndroid.show("You liked the Post",ToastAndroid.LONG),
+       this.props.setLikes(Object.assign({like:true},this.props)),
+       this.props.setProfile(Object.assign({like:true},this.props))
+      ) 
+      : 
+      (ToastAndroid.show("You unliked the Post",ToastAndroid.LONG))
+    }
+    else {
+      !this.state.marked ? 
+       (ToastAndroid.show("You BookMarked the Post",ToastAndroid.LONG),
+        this.props.setBookMarks(Object.assign({marked:true},this.props)),
+        this.props.setProfile(Object.assign({marked:true},this.props))
+       )
+       : 
+       ToastAndroid.show("BookMark Removed",ToastAndroid.LONG)
+     }
       type == "like" ? this.setState({liked:!this.state.liked}): this.setState({marked:!this.state.marked})
-    
   }
   getActionTypeImage(type){
     if (type === "like")
@@ -112,4 +128,22 @@ const styles = StyleSheet.create({
     flex: 1,flexDirection:"row",alignItems:"center",alignContent:"center"
   }
 });
-export { PreviewFooter }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setLikes:(data)=>{
+      dispatch(setLikes(data));
+    },
+    setBookMarks:(data)=>{
+      dispatch(setBookMarks(data));
+    },
+    setProfile:(data)=>{
+      dispatch(setProfile(data))
+    }
+  }
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(PreviewFooter)

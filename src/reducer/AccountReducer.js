@@ -1,29 +1,42 @@
 let account = {
   timeLineFeed: "",
+  likedData:"",
+  bookMarkData:"",
+  profileData:"",
+  hashTagFeed:""
 };
 const accountReducer = (state = account, action) => {
-    console.log("actinons",action)
   switch (action.type) {
-    // case "SCROLL_ENABLE":
-    //   state = {
-    //     ...state,
-    //     scrollEnable:action.payload
-    //   };
     case "NEWS_FEED":
       state = {
         ...state,
         timeLineFeed:action.payload
       };
-    // case "PROFILE_SUMMARY":
-    //   state = {
-    //     ...state,
-    //     profileSummary:action.payload
-    //   };
-    //   case "SNOOP_LIST":
-    //   state = {
-    //     ...state,
-    //     snoopList:action.payload
-    //   };
+      break;
+    case "LIKES":
+      state = {
+        ...state,
+        likedData:action.payload
+      }
+      break;
+    case "BOOK_MARKS":
+      state = {
+        ...state,
+        bookMarkData:action.payload
+      }
+      break;
+    case "PROFILE_DATA":
+      state ={
+        ...state,
+        profileData:action.payload
+      }
+      break;
+    case "HASHTAG_FEED":
+      state = {
+        ...state,
+        hashTagFeed:action.payload
+      }
+      break;
     default:
   }
   return state;

@@ -12,6 +12,12 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     const drawer = Drawer;
+    this.state = {
+      openReportMurmurModal:false,
+      scrollTopTab: false,
+      showToast: false,
+      currentTab: 0
+    };
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
   }
 
@@ -21,7 +27,63 @@ class Home extends React.Component {
       this.handleBackButtonClick
     );
   };
+  renderTabs = (tabId) => {
+    let normalTab = (
+      <View style={styles.tabContentBox}>
+        <Image
+          source={this.returnTabImageUri(tabId)}
+          resizeMode="cover"
+          style={this.state.currentTab == tabId ? styles.activeTab : styles.inactiveTab}
+        />
+      </View>
+    );
 
+    let tab;
+    if (tabId == this.state.currentTab) {
+      tab = (
+        <TabHeading style={{ backgroundColor: "white" }}>
+          <TouchableOpacity
+            style={styles.touchables}
+            // onPress={() => (this.state.currentTab == tabId) ? this.onTabPress(tabId) : ''
+            // }
+            >
+            {normalTab}
+          </TouchableOpacity>
+        </TabHeading>
+      );
+    } else {
+      tab = (
+        <TabHeading style={{ backgroundColor: "white" }}>
+          {normalTab}
+        </TabHeading>
+      );
+    }
+
+    let tabContent;
+    if (tabId == 0) 
+      tabContent = (<Timeline screen="home"/>);
+    else if(tabId == 1) 
+      tabContent = (<Timeline screen="like"/>);
+      // tabContent = (<RecycleView screen="feed" scrollTop={this.state.scrollTopTab} setTopFalse={this.setScrollFalse} {...this.props} />);
+    else if (tabId == 2) 
+      tabContent = (<Timeline screen="bookMark"/>);
+    else
+      tabContent = (<Timeline screen="profile"/>);
+  
+
+    let tabContainer = (
+      <Tab
+        tabStyle={{ backgroundColor: "#ebebe0" }}
+        textStyle={styles.tabHeadingText}
+        activeTabStyle={{ backgroundColor: "#d4ccff" }}
+        activeTextStyle={{ fontSize: 25, fontWeight: "bold" }}
+        heading={tab}>
+        {tabContent}
+      </Tab>
+    );
+
+    return tabContainer;
+  }
   handleBackButtonClick() {
     if (backButtonPressedOnceToExit) {
       BackHandler.exitApp();
@@ -53,6 +115,17 @@ class Home extends React.Component {
 
   openDrawer = () => {
     this.drawer._root.open();
+  };
+
+  returnTabImageUri = (tabId) => {
+    if (tabId == 0) return require("../assets/images/home_icon.png");
+    if (tabId == 1) return require("../assets/images/like_icon.png");
+    if (tabId == 2) return require("../assets/images/bookmark_icon.png");
+    if (tabId == 3) return require("../assets/images/profile_icon.png");
+  }
+
+  changeTab = (i, ref, from) => {
+    this.setState({ currentTab: i });
   };
 
   render() {
@@ -89,9 +162,7 @@ class Home extends React.Component {
               <TouchableOpacity
                 transparent
                 onPress={() => {
-                  if (Actions.currentScene === ScreenKey.Home) {
-                    // Actions.search({ currentTab: this.state.currentTab });
-                  }
+                 
                 }}
                 style={{ width: "40%", alignItems: "flex-end", height: "70%" }}
               >
@@ -104,11 +175,47 @@ class Home extends React.Component {
             </Right>
           </Header>
           <TrendingHashtags/>
-          <Timeline/>
+          <Tabs locked tabBarPosition="bottom" transparent
+            ref={component => (this._tabs = component)}
+            onChangeTab={({ i, ref, from }) => this.changeTab(i, ref, from)}
+          >
+            {this.renderTabs(0)}
+            {this.renderTabs(1)}
+            {this.renderTabs(2)}
+            {this.renderTabs(3)}
+          </Tabs>
         </Container>
       </Drawer>
     );
   }
 }
-
+const styles = StyleSheet.create({
+  tabHeadingText: {
+    color: "white",
+    fontSize: 25,
+    fontFamily: "ProximaNova-Regular"
+  },
+  tabContentBox: {
+    flexDirection: "column",
+    alignItems: 'center'
+  },
+  inactiveTab: {
+    width: 18,
+    height: 18,
+    tintColor: '#a6a6a6',
+    borderWidth: 1
+  },
+  activeTab: {
+    width: 20,
+    height: 20,
+    tintColor: "#455a64",
+    borderWidth: 1.2
+  },
+  touchables: {
+    backgroundColor: 'white',
+    flex: 1,
+    height: 50,
+    justifyContent: 'center'
+  }
+});
 export default (Home);
