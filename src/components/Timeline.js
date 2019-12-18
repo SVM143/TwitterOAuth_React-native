@@ -28,8 +28,20 @@ class Timeline extends Component {
         this.props.getProfile();
   }
 
-  componentWillReceiveProps(props){
-    this.getData(props);
+  // componentWillReceiveProps(props){
+  //   this.getData(props);
+  // }
+  static getDerivedStateFromProps(props, prevState) {
+    if(props.screen == "home" && props.timeLineFeed)
+      return {loader:true,data:props.timeLineFeed}
+  else if(props.screen == "like" && props.likedData)
+  return {loader:true,data:props.likedData}
+  else if(props.screen == "bookMark" && props.bookMarkData)
+  return {loader:true,data:props.bookMarkData}
+  else if(props.screen == "hashtag" && props.hashTagFeed)
+  return {loader:true,data:props.hashTagFeed}
+  else 
+  return {loader:true,data:props.profileData}
   }
 
   onRefresh() {

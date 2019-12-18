@@ -95,7 +95,7 @@ export class NewsPreview extends React.Component {
               </Body>
           </CardItem>
       </TouchableOpacity>
-      <PreviewFooter {...this.props.previewLink}/>
+      <PreviewFooter {...this.props.previewLink} data={this.props}/>
       </View>
       )
     }

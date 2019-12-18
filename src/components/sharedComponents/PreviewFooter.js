@@ -1,23 +1,17 @@
 import React from "react";
 import { Image, TouchableOpacity, View,StyleSheet, ToastAndroid } from "react-native";
 import {connect} from "react-redux";
-import {setLikes,setBookMarks,setProfile} from "../../ApiFetch/accountActions"
+import {setLikes,setBookMarks,setProfile,unLikePost} from "../../ApiFetch/accountActions"
 
 class PreviewFooter extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       liked:this.props.like,
-      marked:this.props.marked
+      marked:this.props.marked,
+      likedData:[]
     }
-    // this.commentCounter=props.data.count;
   }
-  
-  // toggleColor(type){
-  //   this.imageSnoopRef.setNativeProps({
-  //     tintColor: type
-  //   });
-  // }
 
   getSnoopLogo(data) {
     if(data.like)
@@ -36,6 +30,9 @@ class PreviewFooter extends React.Component {
     )
   }
 
+  componentWillReceiveProps(props){
+    props.likedData ? this.setState({likedData:props.likedData}):null
+  }
   changeState(type){
     if(type == "like"){
       !this.state.liked ? 
@@ -43,8 +40,9 @@ class PreviewFooter extends React.Component {
        this.props.setLikes(Object.assign({like:true},this.props)),
        this.props.setProfile(Object.assign({like:true},this.props))
       ) 
-      : 
-      (ToastAndroid.show("You unliked the Post",ToastAndroid.LONG))
+      :
+      (this.props.unLikePost(this.props.likedData,this.props.author),
+      (ToastAndroid.show("You unliked the Post",ToastAndroid.LONG)))
     }
     else {
       !this.state.marked ? 
@@ -139,11 +137,20 @@ const mapDispatchToProps = dispatch => {
     },
     setProfile:(data)=>{
       dispatch(setProfile(data))
+    },
+    unLikePost:(data)=>{
+      dispatch(unLikePost(data))
     }
   }
 };
-
+const mapStateToProps = (state) => {
+  console.log("2345234534545",state)
+  return {
+    likedData: state.accountData.likedData,
+    bookMarkData: state.accountData.bookMarkData,
+  };
+}
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(PreviewFooter)

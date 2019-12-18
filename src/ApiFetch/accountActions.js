@@ -84,6 +84,20 @@ export async function getAllData() {
      )
   }
 
+  //Unlike Post
+  export async function unLikePost(likeData,data){
+    // console.log("likeData",likeData,data)
+    return dispatch =>{
+    let afterDeletionData = likeData.filter((entry) => entry.author===data)
+    console.log("afterDeletion",afterDeletionData);
+    if(afterDeletionData.length>0)
+    dispatch({
+      payload: afterDeletionData,
+      type: 'LIKES'
+      })
+   }
+  }
+
   // Set Profile
   export async function setProfile(data){
     all = all.concat(data)
