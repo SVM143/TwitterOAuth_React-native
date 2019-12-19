@@ -15,19 +15,19 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 export default class Form extends Component {
   
   async signup() {
-    let data =  await _twitterSignIn()
+    // let data =  await _twitterSignIn()
     Actions.ProfileUpload();
-    data?Store.set("AccountDetails", JSON.stringify(data)):null
+    data?Store.set("AccountDetails", JSON.stringify("Entered Data")):null
 	}
 	render(){
 		return(
 			<View style={styles.container}>
          <Icon.Button
-          name="twitter"
+          // name="twitter"
           backgroundColor="#00acee"
           onPress={this.signup}
         >
-          Login with Twitter
+         Enter
           </Icon.Button>
   		</View>
 			)
